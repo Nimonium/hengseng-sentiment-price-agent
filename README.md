@@ -7,9 +7,8 @@
 [![Markets](https://img.shields.io/badge/Markets-HKEX%20%7C%20KRX-f59e0b?style=for-the-badge&logo=cashapp&logoColor=white)](config.yaml)
 [![Causal Integrity](https://img.shields.io/badge/Leakage-Zero%20Lookahead-10b981?style=for-the-badge&logo=shield&logoColor=white)](src/features/aligner.py)
 [![Validation](https://img.shields.io/badge/Validation-Walk--Forward%20CV-8b5cf6?style=for-the-badge&logo=git&logoColor=white)](src/models/validator.py)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](LICENSE)
 
-**An institutional-grade quantitative machine learning pipeline predicting next-bar intraday returns ($R_{t+1}$) across the Hong Kong Stock Exchange (HKEX) and Korea Exchange (KRX).**
+**A reproducible quantitative machine learning pipeline predicting next-bar intraday returns ($R_{t+1}$) across the Hong Kong Stock Exchange (HKEX) and Korea Exchange (KRX).**
 
 *Built for the **CrowdWisdomTrading** quantitative assessment with strict point-in-time causal alignment, walk-forward cross-validation, multi-source sentiment aggregation, and 100% reproducible offline sample execution.*
 
@@ -220,7 +219,7 @@ The entire assessment compiles into a standalone, interactive dashboard generate
 ┌────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │                                    HTML REPORT ARCHITECTURE                                        │
 ├────────────────────────────────────────────────────────────────────────────────────────────────────┤
-│ 1. Institutional Summary Banner: Executive KPIs, cross-exchange volume metrics, and model status.  │
+│ 1. Executive Summary Banner: Key KPIs, cross-exchange volume metrics, and model status.  │
 │ 2. Interactive Candlestick Charts: Dark Plotly 1h candles with Pivot Points (P, R1, S1).           │
 │ 3. Sentiment Dynamics Subplots: Synchronized decay curve overlays tracking post arrivals & decays. │
 │ 4. Provenance & Ingestion Matrix: Traceable item counts, native timestamps, and execution sources.  │
@@ -235,7 +234,7 @@ The entire assessment compiles into a standalone, interactive dashboard generate
 1. **Rejection of Short-Horizon Directional Alpha ($p \ge 0.05$)**:
    Across all 10 equities and pooled cross-sectional panels, directional accuracy against a 50% random guessing benchmark yields binomial $p$-values exceeding $0.05$. We transparently **reject the hypothesis that retail sentiment delivers directional alpha at the 1-hour intraday horizon**.
 2. **Optimality of the Naive Zero-Return Benchmark**:
-   In low-signal intraday regimes where mean return $\mathbb{E}[R] \approx 0$, the **Naive Zero-Return baseline strictly minimizes Mean Absolute Error** over linear regressions and complex feature sets. Presenting this outcome reflects genuine institutional quantitative discipline rather than overfit narrative fabrication.
+   In low-signal intraday regimes where mean return $\mathbb{E}[R] \approx 0$, the **Naive Zero-Return baseline strictly minimizes Mean Absolute Error** over linear regressions and complex feature sets. Presenting this outcome reflects genuine quantitative discipline rather than overfit narrative fabrication.
 3. **Evaluation Window Constraints**:
    The mandatory 10-calendar-day evaluation window encompasses exactly 5 active trading sessions (35 bars for HKEX, 30 for KRX). Extending the time series to multi-quarter horizons would be necessary to identify lower-frequency regime shifts or post-earnings announcement drift.
 4. **Apify Quota Status**:
@@ -311,7 +310,7 @@ hengseng-sentiment-price-agent/
 ├── .env.example              # Sanitized template for external API credentials
 ├── .gitignore                # Protects .env, raw cache, and scratch files
 ├── ACTORS.md                 # Complete catalog of Apify actor schemas, run IDs & costs
-├── README.md                 # Institutional documentation & empirical report
+├── README.md                 # Comprehensive documentation & empirical report
 ├── config.yaml               # Exchange trading hours, tickers, and model parameters
 ├── pytest.ini                # Pytest configuration settings
 ├── requirements.txt          # Pinned production dependency versions
