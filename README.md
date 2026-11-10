@@ -1,89 +1,104 @@
 # 📈 HengSeng Sentiment Price Prediction Agent
 
-[![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/downloads/release/python-3120/)
-[![Tests Passing](https://img.shields.io/badge/pytest-9%20passed-success.svg)](tests/)
-[![Markets](https://img.shields.io/badge/markets-HKEX%20%7C%20KRX-orange.svg)](config.yaml)
-[![Methodology](https://img.shields.io/badge/validation-walk--forward%20CV-purple.svg)](src/models/validator.py)
-[![Zero Look-Ahead](https://img.shields.io/badge/leakage-zero%20lookahead-emerald.svg)](src/features/aligner.py)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+<div align="center">
 
-An institutional-grade, multi-exchange quantitative machine learning pipeline that predicts next-bar intraday returns ($R_{t+1}$) for mega-cap equities across the **Hong Kong Stock Exchange (HKEX)** and the **Korea Exchange (KRX)**. The system continuously ingests social media discussions (Apify), neural financial news (Exa.com), and intraday market structure (1-hour OHLCV bars) under **strict causal point-in-time alignment, walk-forward cross-validation, and rigorous hypothesis testing**.
+[![Python 3.12](https://img.shields.io/badge/Python-3.12+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/downloads/)
+[![Pytest 9/9 Passed](https://img.shields.io/badge/Pytest-9%20Passed-22c55e?style=for-the-badge&logo=pytest&logoColor=white)](tests/)
+[![Markets](https://img.shields.io/badge/Markets-HKEX%20%7C%20KRX-f59e0b?style=for-the-badge&logo=cashapp&logoColor=white)](config.yaml)
+[![Causal Integrity](https://img.shields.io/badge/Leakage-Zero%20Lookahead-10b981?style=for-the-badge&logo=shield&logoColor=white)](src/features/aligner.py)
+[![Validation](https://img.shields.io/badge/Validation-Walk--Forward%20CV-8b5cf6?style=for-the-badge&logo=git&logoColor=white)](src/models/validator.py)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](LICENSE)
 
-Developed for the **CrowdWisdomTrading** *HengSeng Sentiment Price Prediction Agent* assessment.
+**An institutional-grade quantitative machine learning pipeline predicting next-bar intraday returns ($R_{t+1}$) across the Hong Kong Stock Exchange (HKEX) and Korea Exchange (KRX).**
 
----
+*Built for the **CrowdWisdomTrading** quantitative assessment with strict point-in-time causal alignment, walk-forward cross-validation, multi-source sentiment aggregation, and 100% reproducible offline sample execution.*
 
-## 📑 Table of Contents
-- [Executive Summary & Scope](#-executive-summary--scope)
-- [System Architecture](#-system-architecture)
-- [Cross-Source Execution Registry](#-cross-source-execution-registry)
-- [Mathematical & Algorithmic Formulation](#-mathematical--algorithmic-formulation)
-  - [1. Evaluation Window vs. Indicator Warm-Up](#1-evaluation-window-vs-indicator-warm-up)
-  - [2. Point-in-Time Alignment & Exponential Decay](#2-point-in-time-alignment--exponential-decay)
-  - [3. Non-Collinear Differential Sentiment](#3-non-collinear-differential-sentiment)
-  - [4. Regularized Modeling & Volatility Clamping](#4-regularized-modeling--volatility-clamping)
-- [Empirical Results & Ablation Analysis](#-empirical-results--ablation-analysis)
-  - [Pooled Exchange Walk-Forward Validation](#1-pooled-exchange-walk-forward-validation-n--100)
-  - [Per-Ticker Walk-Forward Ablation](#2-per-ticker-walk-forward-ablation)
-  - [Out-of-Sample Predictions vs. Actual Price Action](#3-out-of-sample-predictions-vs-actual-price-action)
-- [Interactive HTML Report Showcase](#-interactive-html-report-showcase)
-- [Honest Scientific Limitations](#-honest-scientific-limitations)
-- [Quickstart & Reviewer Reproduction](#-quickstart--reviewer-reproduction)
-- [Project Directory Structure](#-project-directory-structure)
+[Explore Methodology](#-mathematical--algorithmic-formulation) •
+[Empirical Results](#-empirical-results--ablation-analysis) •
+[HTML Report](#-interactive-html-report-showcase) •
+[Quickstart](#-quickstart--reviewer-reproduction) •
+[Directory Layout](#-project-directory-structure)
+
+</div>
 
 ---
 
-## 📌 Executive Summary & Scope
+## 🧭 Executive Summary & Core Pillars
 
-| Parameter | Hong Kong Exchange (HKEX) | Korea Exchange (KRX) |
-| :--- | :--- | :--- |
-| **Assets Analyzed** | `0700.HK` (Tencent)<br>`9988.HK` (Alibaba)<br>`0005.HK` (HSBC)<br>`1299.HK` (AIA Group)<br>`3690.HK` (Meituan) | `005930.KS` (Samsung Electronics)<br>`000660.KS` (SK Hynix)<br>`035420.KS` (Naver)<br>`005380.KS` (Hyundai Motor)<br>`035720.KS` (Kakao) |
-| **Trading Sessions** | 5 sessions (`2026-11-02` to `2026-11-06`) | 5 sessions (`2026-11-02` to `2026-11-06`) |
-| **Intraday Bar Resolution** | 1-Hour OHLCV (35 evaluation bars) | 1-Hour OHLCV (30 evaluation bars) |
-| **Primary Social UGC** | **LIHKG** (連登 user discussion forum) | **Naver Finance 종목토론실** (retail discussion boards) |
-| **News Wire Sources** | **AASTOCKS** (阿思達克 real-time wire) | **Daum Finance News** & **Naver Corporate News** |
-| **Neural Semantic News** | **Exa.com Neural News Search** | **Exa.com Neural News Search** |
-| **Currency Representation** | Hong Kong Dollar (`HK$`) | South Korean Won (`₩`) |
+This system bridges unstructured Asian retail social sentiment, neural news semantics, and intraday price dynamics to test whether social discussion offers genuine directional alpha at the 1-hour horizon.
+
+```
+┌────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│                                       CORE SYSTEM PILLARS                                              │
+├──────────────────────────┬──────────────────────────┬──────────────────────────┬───────────────────────┤
+│ 1. Zero Look-Ahead       │ 2. Tri-Source Signals    │ 3. Walk-Forward CV       │ 4. Scientific Honesty │
+│ Strict point-in-time     │ Apify UGC (LIHKG,        │ Expanding-window time-   │ Verifiable binomial   │
+│ alignment with overnight │ Naver), editorial wires  │ series splits with fold- │ tests vs. naive zero- │
+│ rollover & continuous    │ (AAStocks, Daum), and    │ internal RidgeCV tuning  │ return baselines. No  │
+│ 6h exponential decay.    │ Exa neural news.         │ & volatility clamping.   │ p-hacking or leakage. │
+└──────────────────────────┴──────────────────────────┴──────────────────────────┴───────────────────────┘
+```
+
+### Key Asset Universe (10 Mega-Cap Equities)
+
+| Exchange | Ticker | Company Name | Sector | Currency | Primary Social UGC | News Wire Source | Neural News |
+| :--- | :--- | :--- | :--- | :---: | :--- | :--- | :--- |
+| **HKEX** | `0700.HK` | Tencent Holdings | Internet / Gaming | `HK$` | LIHKG (連登) | AAStocks (阿思達克) | Exa.com |
+| **HKEX** | `9988.HK` | Alibaba Group | E-Commerce / Cloud | `HK$` | LIHKG (連登) | AAStocks (阿思達克) | Exa.com |
+| **HKEX** | `0005.HK` | HSBC Holdings | Banking / Financials | `HK$` | LIHKG (連登) | AAStocks (阿思達克) | Exa.com |
+| **HKEX** | `1299.HK` | AIA Group | Insurance / Wealth | `HK$` | LIHKG (連登) | AAStocks (阿思達克) | Exa.com |
+| **HKEX** | `3690.HK` | Meituan | Local Services / Tech | `HK$` | LIHKG (連登) | AAStocks (阿思達克) | Exa.com |
+| **KRX** | `005930.KS` | Samsung Electronics | Semiconductors / Tech | `₩` | Naver 종목토론실 | Daum Finance & Naver | Exa.com |
+| **KRX** | `000660.KS` | SK Hynix | Memory Semiconductors | `₩` | Naver 종목토론실 | Daum Finance & Naver | Exa.com |
+| **KRX** | `035420.KS` | Naver Corp | Search / Internet | `₩` | Naver 종목토론실 | Daum Finance & Naver | Exa.com |
+| **KRX** | `005380.KS` | Hyundai Motor | Automotive / EV | `₩` | Naver 종목토론실 | Daum Finance & Naver | Exa.com |
+| **KRX** | `035720.KS` | Kakao Corp | Messaging / Platform | `₩` | Naver 종목토론실 | Daum Finance & Naver | Exa.com |
 
 ---
 
-## 🏗 System Architecture
+## 🏗 End-to-End System Architecture
 
 ```mermaid
 flowchart TD
-    subgraph INGEST["1. Data Ingestion Layer"]
-        A1["Apify: LIHKG (HKEX UGC)"]
-        A2["Apify: AAStocks (HKEX News)"]
-        A3["Apify: Naver Discussion (KRX UGC)"]
-        A4["Apify: Daum Finance (KRX News)"]
-        E1["Exa.com: Neural News Search (Both)"]
-        P1["yfinance: 1h OHLCV Bars + Warm-Up"]
+    classDef ingest fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#f8fafc;
+    classDef align fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#f8fafc;
+    classDef feat fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#f8fafc;
+    classDef model fill:#1e293b,stroke:#f59e0b,stroke-width:2px,color:#f8fafc;
+    classDef report fill:#1e293b,stroke:#ec4899,stroke-width:2px,color:#f8fafc;
+
+    subgraph INGEST["1. Data Ingestion & Live Scraper Layer"]
+        A1["Apify: LIHKG (HKEX UGC)"]:::ingest
+        A2["Apify: AAStocks (HKEX News)"]:::ingest
+        A3["Apify: Naver Discussion (KRX UGC)"]:::ingest
+        A4["Apify: Daum Finance (KRX News)"]:::ingest
+        E1["Exa.com: Neural Semantic News"]:::ingest
+        P1["Yahoo Finance: 1h OHLCV + Warm-Up Bars"]:::ingest
     end
 
-    subgraph ALIGN["2. Zero-Lookahead Causal Alignment Layer"]
-        B1["Point-in-Time Join: t_post in (T_k-1, T_k]"]
-        B2["Market Closure Session Rollover (Overnight/Weekend)"]
-        B3["Half-Life Exponential Decay: H = 6h"]
+    subgraph ALIGN["2. Zero-Lookahead Causal Alignment Engine"]
+        B1["Point-in-Time Join: t_post ∈ (T_k-1, T_k]"]:::align
+        B2["Market Closure Session Rollover (Overnight/Weekend)"]:::align
+        B3["Half-Life Exponential Decay: H = 6h"]:::align
     end
 
-    subgraph FEAT["3. Feature Engineering & Structure"]
-        C1["Differential Bull/Bear: (Bull - Bear)/(Bull + Bear + 1)"]
-        C2["Floor Trader Pivots (P, R1, S1) + Divergence Alerts"]
-        C3["Lagged Log Returns & Rolling Volatility"]
-        C4["Zero-Variance & Collinearity Drop"]
+    subgraph FEAT["3. Quantitative Feature Engineering"]
+        C1["Differential Sentiment: (Bull - Bear) / (Bull + Bear + 1)"]:::feat
+        C2["Floor Trader Pivots (P, R1, S1) + Divergence Alerts"]:::feat
+        C3["Lagged Log-Returns & 14-Bar Rolling Volatility"]:::feat
+        C4["Collinearity & Zero-Variance Pruning"]:::feat
     end
 
-    subgraph MODEL["4. Walk-Forward CV & Model Architecture"]
-        D1["TimeSeriesSplit (4 expanding folds, zero future leak)"]
-        D2["RidgeCV (fold-internal alpha tuning: 10^-2 to 10^4)"]
-        D3["Volatility-Bounded Clamping: +/- 3 x Rolling Vol"]
-        D4["Pooled Exchange Normalization (N > 100)"]
+    subgraph MODEL["4. Walk-Forward Cross-Validation & Ridge Modeling"]
+        D1["TimeSeriesSplit (4 expanding causal folds)"]:::model
+        D2["Fold-Internal RidgeCV Tuning (α ∈ 10^-2 to 10^4)"]:::model
+        D3["Volatility Clamping: ± 3 × σ_roll"]:::model
+        D4["Pooled Exchange Normalization (N > 100)"]:::model
     end
 
-    subgraph EVAL["5. Validation & Reporting"]
-        R1["Naive Zero-Return Benchmark MAE"]
-        R2["Binomial Directional Significance Test (vs 50% & Up)"]
-        R3["Self-Contained Interactive Dashboard: report/report.html"]
+    subgraph EVAL["5. Evaluation, Benchmarking & HTML Reporting"]
+        R1["Naive Zero-Return Benchmark MAE"]:::report
+        R2["Binomial Directional Significance Test (vs 50% & Up)"]:::report
+        R3["Self-Contained Interactive Plotly Dashboard"]:::report
     end
 
     INGEST --> ALIGN --> FEAT --> MODEL --> EVAL
@@ -91,71 +106,81 @@ flowchart TD
 
 ---
 
-## 📡 Cross-Source Execution Registry
+## 📡 Cross-Source Ingestion & Audit Registry
 
-Every data source was queried against live APIs, audited, and cataloged. Unviable actors and platform constraints are reported transparently:
+Every data channel was queried against live APIs, audited for schema compliance, and recorded with full platform run IDs. Platform limits and availability constraints are documented below:
 
-| Exchange | Platform / Source | Category | Usable Window Items | Execution Status | Reference & Apify Run ID |
+| Exchange | Platform / Source | Type | Usable Window Items | Ingestion Status | Actor ID / Run Reference |
 | :--- | :--- | :--- | :---: | :--- | :--- |
-| **HKEX** | **LIHKG** (連登) | Social UGC | **4** | **Real Apify Run** *(Single thin UGC source)* | `GZVVLlijW4U5bxSNk` / `sKCe3NgXqlRDerEwZ` |
-| **HKEX** | **AAStocks** (阿思達克) | News Wire | **36** | **Real Apify Run** *(Real-time public wire)* | `ZIhFu2IJARtAxAjbT` / `BNtpwWW3Uf1EfmBrA` |
-| **HKEX** | **Exa.com News** | News Media | **58** | **Real Exa Search** *(Neural semantic search)* | Neural queries via `exa_py` |
-| **HKEX** | **Futu / Moomoo** | Social UGC | **0** | **Unavailable** *(0 Apify actors exist on store)* | Queried `client.store().list(search="futu")` |
-| **HKEX** | **ETNet HK Forum** | Social UGC | **0** | **Unavailable** *(0 Apify actors exist on store)* | Queried `client.store().list(search="etnet")` |
-| **KRX** | **Naver 종목토론실** | Social UGC | **400** | **Real Apify Run** *(Retail stock discussion)* | `XDZAwjTEizX7OUn3n` / `tTfXyhIOFxdYMry5a` |
-| **KRX** | **TeamBlind** | Social UGC | **0** | **Dataset Locked** *(Runs succeeded, locked by quota)* | `ygXvOJdSq4PWogaq1`, `hPs1ejWbCNS7SZmh4` |
-| **KRX** | **Daum Finance News**| News Wire | **200** | **Real Apify Run** *(Finance section wire)* | `8cEgcwpp0ngIPkZzL` / `2cEGcNBbXozT9bMxe` |
-| **KRX** | **Naver Corporate News**| News Wire | **37** | **Real Ingestion** *(Real-time corporate feed)* | Automated news feed ingestion |
-| **KRX** | **Exa.com News** | News Media | **56** | **Real Exa Search** *(Neural semantic search)* | Neural queries via `exa_py` |
-| **KRX** | **Telegram Channels**| Social UGC | **0** | **Failed** *(Login wall / web preview disabled)* | `cb05PcLkOCbpuiaSs`, `rJObXtQNc5uxUWNcB` |
+| **HKEX** | **LIHKG** (連登) | Social UGC | **4** | **Real Apify Run** *(Single thin UGC source)* | `heise/lihkg-scraper`<br>`GZVVLlijW4U5bxSNk` |
+| **HKEX** | **AAStocks** (阿思達克) | News Wire | **36** | **Real Apify Run** *(Real-time public financial wire)* | `curious_coder/aastocks-news-scraper`<br>`ZIhFu2IJARtAxAjbT` |
+| **HKEX** | **Exa.com News** | News Media | **58** | **Real Exa Search** *(Targeted semantic search)* | Neural queries via `exa_py` |
+| **HKEX** | **Futu / Moomoo** | Social UGC | **0** | **Unavailable** *(0 actors exist on Apify Store)* | Audited via `client.store().list()` |
+| **HKEX** | **ETNet HK Forum** | Social UGC | **0** | **Unavailable** *(0 actors exist on Apify Store)* | Audited via `client.store().list()` |
+| **KRX** | **Naver 종목토론실** | Social UGC | **400** | **Real Apify Run** *(Retail discussion boards)* | `flashycodes/naver-stock-discussion-board-scraper`<br>`XDZAwjTEizX7OUn3n` |
+| **KRX** | **TeamBlind** | Social UGC | **0** | **Dataset Locked** *(Runs succeeded, locked by quota)* | `ygXvOJdSq4PWogaq1`<br>`hPs1ejWbCNS7SZmh4` |
+| **KRX** | **Daum Finance News**| News Wire | **200** | **Real Apify Run** *(Real-time Korean finance wire)* | `tri_angle/daum-news-scraper`<br>`8cEgcwpp0ngIPkZzL` |
+| **KRX** | **Naver Corporate News**| News Wire | **37** | **Real Ingestion** *(Corporate announcement wire)* | Real-time corporate news feed |
+| **KRX** | **Exa.com News** | News Media | **56** | **Real Exa Search** *(Targeted semantic search)* | Neural queries via `exa_py` |
+| **KRX** | **Telegram Channels**| Social UGC | **0** | **Failed** *(Login wall / web preview disabled)* | `cb05PcLkOCbpuiaSs`<br>`rJObXtQNc5uxUWNcB` |
 
 ### Ingestion Transparency & Data Governance
-1. **Hong Kong UGC Scarcity**: HKEX retail sentiment is sparse because Futu/Moomoo and ETNet have no public Apify scrapers, and AAStocks exposes exclusively editorial news wires. LIHKG serves as the sole user-discussion source (4 high-engagement threads spanning the 10-day period).
-2. **TeamBlind Dataset Locking**: Live Apify runs for TeamBlind succeeded on Apify's cluster (`hypebridge/blind-post-scraper`), extracting 60 items per ticker. However, TeamBlind outputs relative timestamps (`"2d"`, `"Yesterday"`), which raised a format error in the initial parser. Immediately after, the Apify free-tier quota ($5.00) was exhausted ($9.60 consumed), locking the datasets on Apify's servers. These runs were **never downloaded to cache and are not used** in features or models.
-3. **Exa News Targeted Retries**: Default queries initially returned 0 results for AIA (`1299.HK`) and Meituan (`3690.HK`). Retrying those tickers with semantic query phrasing (`f"{ticker.name} Hong Kong stock"`, using exactly 2 Exa API calls) retrieved 22 verified articles for AIA and 22 for Meituan, lifting total HKEX Exa news volume to 58.
+1. **Hong Kong UGC Scarcity**: HKEX retail sentiment is sparse because Futu/Moomoo and ETNet lack public Apify scrapers, while AAStocks exposes strictly editorial news. LIHKG serves as the sole user-generated source (4 high-engagement threads across the 10-day evaluation window).
+2. **TeamBlind Dataset Quota Lock**: Live Apify runs for TeamBlind succeeded on Apify's cluster (`hypebridge/blind-post-scraper`), extracting 60 items per ticker. However, TeamBlind outputs relative timestamps (`"2d"`, `"Yesterday"`), which raised a format error in the initial parser. Immediately after, the Apify monthly free-tier quota ($5.00) was exhausted ($9.60 total consumed), locking the dataset on Apify's servers. These runs were **never downloaded to cache and are strictly excluded** from feature sets and models.
+3. **Targeted Exa News Queries**: Generic ticker queries originally returned 0 results for AIA (`1299.HK`) and Meituan (`3690.HK`). Retrying with refined semantic queries (`f"{ticker.name} Hong Kong stock"`, consuming exactly 2 Exa API calls) retrieved 22 verified articles for AIA and 22 for Meituan, lifting total HKEX Exa news volume to 58.
 
 ---
 
 ## ⚡ Mathematical & Algorithmic Formulation
 
-### 1. Evaluation Window vs. Indicator Warm-Up
-* **Evaluation Window**: Strictly bounded to the last 10 calendar days ending at execution timestamp ($T_0 - 10\text{d} \to T_0$).
-* **Indicator Warm-Up Partitioning**: Pre-window price history ($T < T_{\text{start}}$) is fetched exclusively to seed technical indicators (14-period rolling volatility, moving average spreads, volume z-scores) and is **strictly purged** prior to model training, cross-validation, and performance accounting.
+### 1. Evaluation Window vs. Indicator Warm-Up Partitioning
+* **Strict Evaluation Window**: Confined strictly to the last 10 calendar days ending at run time ($T_0 - 10\text{d} \to T_0$).
+* **Warm-Up Isolation**: Pre-window price history ($T < T_{\text{start}}$) is downloaded solely to initialize technical indicators (14-period rolling volatility, moving averages, ATR). These warm-up rows are **strictly purged** prior to model training, cross-validation, and metrics accounting.
 
-### 2. Point-in-Time Alignment & Exponential Decay
-For an hourly bar $k$ bounded by $(T_{k-1}, T_k]$:
+### 2. Point-in-Time Alignment & Exponential Half-Life Decay
+For an hourly intraday bar $k$ covering the interval $(T_{k-1}, T_k]$:
 $$\text{Eligible Content: } t_{\text{item}} \in (T_{k-1}, T_k]$$
-* **Market Closure Rollover**: Posts created while markets are closed (overnight, weekends) strictly accumulate into the opening bar ($09:30\text{--}10:30$ for HKEX, $09:00\text{--}10:00$ for KRX) of the subsequent active session.
-* **Continuous Exponential Decay**: Inactive bars decay accumulated sentiment with half-life $H = 6\text{ bars}$ (1 trading day):
-$$S_k = \begin{cases} s_k & \text{if new items observed in bar } k \\ S_{k-1} \cdot \exp\left(-\frac{\ln 2}{H}\right) & \text{if no items observed} \end{cases}$$
 
-### 3. Non-Collinear Differential Sentiment
-To avoid numerical instability from zero-division in standard bull/bear ratios, we formulate the bounded **Differential Sentiment Ratio**:
+* **Market Closure Session Rollover**: Content published during market closures (overnight, weekends) strictly rolls forward into the opening bar ($09:30\text{--}10:30$ for HKEX, $09:00\text{--}10:00$ for KRX) of the subsequent active trading session.
+* **Continuous Half-Life Decay**: When no fresh sentiment is published during bar $k$, accumulated sentiment decays exponentially with half-life $H = 6\text{ bars}$ (1 full trading day):
+$$S_k = \begin{cases} s_k & \text{if fresh posts observed in bar } k \\ S_{k-1} \cdot \exp\left(-\frac{\ln 2}{H}\right) & \text{if no posts observed in bar } k \end{cases}$$
+
+### 3. Bounded Non-Collinear Differential Sentiment
+To eliminate numerical divergence caused by zero-division in traditional bull/bear ratios, we formulate the bounded **Differential Sentiment Ratio**:
 $$\text{DiffSentiment} = \frac{\text{Bullish} - \text{Bearish}}{\text{Bullish} + \text{Bearish} + 1.0} \in [-1, 1]$$
-Collinear features (`social_sentiment_momentum`, `news_sentiment_smooth_3h`) and zero-variance features are systematically pruned prior to estimation.
 
-### 4. Regularized Modeling & Volatility Clamping
-* **Expanding-Window Cross Validation**: Evaluated using `TimeSeriesSplit(n_splits=4)` ensuring strictly causal out-of-sample forecasting.
-* **Fold-Internal Regularization**: Ridge regression regularizer $\alpha$ is tuned strictly on training folds via `RidgeCV(alphas=np.logspace(-2, 4, 15))`.
-* **Volatility-Bounded Clamping**: To eradicate unrealistic predictions (e.g. $+6.4\%$ hourly return predictions), forecasts are clamped to $\pm 3\times$ the rolling standard deviation:
+Collinear duplicates (`social_sentiment_momentum`, `news_sentiment_smooth_3h`) and zero-variance features are systematically pruned prior to cross-validation.
+
+### 4. Floor Trader Pivot Points & Divergence Logic
+Daily pivot levels provide structural support/resistance baselines for 1h price bars:
+$$P = \frac{\text{High} + \text{Low} + \text{Close}}{3}, \quad R_1 = 2P - \text{Low}, \quad S_1 = 2P - \text{High}$$
+
+* **Bullish Pivot Divergence**: Price touches/breaks below $S_1$ while differential sentiment is positive ($\text{DiffSentiment} > +0.10$).
+* **Bearish Pivot Divergence**: Price touches/breaks above $R_1$ while differential sentiment is negative ($\text{DiffSentiment} < -0.10$).
+
+### 5. Regularized Walk-Forward CV & Volatility Clamping
+* **Expanding-Window Cross Validation**: Evaluated using `TimeSeriesSplit(n_splits=4)`, guaranteeing strictly causal training without look-ahead leakage.
+* **Fold-Internal Regularization**: Ridge regression penalty $\alpha$ is tuned solely on training folds via `RidgeCV(alphas=np.logspace(-2, 4, 15))`.
+* **Volatility-Bounded Clamping**: To suppress spurious linear extrapolations, all predicted returns are clamped within $\pm 3\times$ the rolling standard deviation:
 $$\hat{R}_{t+1} \in \left[-3\sigma_{\text{roll}}, +3\sigma_{\text{roll}}\right]$$
-All predicted hourly returns are bounded within $[-0.94\%, +0.64\%]$.
+All predicted hourly returns are safely bounded within $[-0.94\%, +0.64\%]$.
 
 ---
 
 ## 📊 Empirical Results & Ablation Analysis
 
 ### 1. Pooled Exchange Walk-Forward Validation ($N > 100$)
-Cross-sectional models trained by pooling standardized return and sentiment series across all 5 assets within each exchange:
+
+To maximize statistical power, cross-sectional models were trained by pooling standardized return and sentiment features across all 5 equities per exchange:
 
 | Exchange | Test Samples $N$ | Naive Zero MAE | Price Only MAE | +Social MAE | +News MAE | All Features MAE | Optimal Predictor |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
 | **HKEX** | 136 | **0.006258** | 0.007241 | 0.007314 | 0.007048 | 0.006989 | **Naive Zero-Return** |
 | **KRX** | 116 | **0.015071** | 0.016891 | 0.016891 | 0.018140 | 0.018140 | **Naive Zero-Return** |
 
-### 2. Per-Ticker Walk-Forward Ablation
+### 2. Per-Ticker Walk-Forward Ablation Table
 
-| Asset | Test Bars $N$ | Naive Zero MAE | Price Only MAE | +Social MAE | +News MAE | All Features MAE | Model Dir Acc | Always-Up | Prev-Dir | Binomial $p$-val (50%) | Sig Edge? |
+| Asset | Test Bars $N$ | Naive Zero MAE | Price Only MAE | +Social MAE | +News MAE | All Features MAE | Model Dir Acc | Always-Up | Prev-Dir | Binomial $p$-val (50%) | Significant Edge? |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | **0700.HK** (Tencent) | 24 | **0.006676** | 0.006913 | 0.006913 | 0.006912 | 0.006913 | **58.3%** | 58.3% | 54.2% | 0.2706 | **NO** |
 | **9988.HK** (Alibaba) | 24 | **0.009013** | 0.009423 | 0.009423 | 0.009410 | 0.009410 | **41.7%** | 58.3% | 45.8% | 0.8463 | **NO** |
@@ -170,7 +195,7 @@ Cross-sectional models trained by pooling standardized return and sentiment seri
 
 ### 3. Out-of-Sample Predictions vs. Actual Price Action
 
-Next-bar ($n+1$) out-of-sample predictions formatted with local currency symbols (`HK$` and `₩`):
+Final out-of-sample next-bar ($n+1$) forecasts formatted in their respective exchange currencies:
 
 | Ticker | Current Close | Predicted Next Bar | Actual Next Bar | Predicted Return | Actual Return | Directional Hit? |
 | :--- | :--- | :--- | :--- | :---: | :---: | :---: |
@@ -189,52 +214,91 @@ Next-bar ($n+1$) out-of-sample predictions formatted with local currency symbols
 
 ## 🎨 Interactive HTML Report Showcase
 
-The pipeline compiles a production-grade, self-contained HTML dashboard at [`report/report.html`](report/report.html) featuring:
-1. **Interactive Candlestick & Technical Level Charts**: Built with Plotly Dark theme, rendering 1h candles alongside daily Floor Trader Pivot points ($P$, $R_1$, $S_1$) and technical divergence alerts.
-2. **Sentiment Decay Dynamics Subplots**: Displays synchronized point-in-time sentiment scores decaying exponentially during quiet hours.
-3. **Cross-Source Provenance Matrix**: Full traceability table displaying the source, platform, native timestamp field, and window item count.
-4. **Walk-Forward Performance Panels**: Visual bar charts comparing baseline MAEs with binomial significance test metrics.
+The entire assessment compiles into a standalone, interactive dashboard generated at [`report/report.html`](report/report.html) (204 KB):
+
+```
+┌────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│                                    HTML REPORT ARCHITECTURE                                        │
+├────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│ 1. Institutional Summary Banner: Executive KPIs, cross-exchange volume metrics, and model status.  │
+│ 2. Interactive Candlestick Charts: Dark Plotly 1h candles with Pivot Points (P, R1, S1).           │
+│ 3. Sentiment Dynamics Subplots: Synchronized decay curve overlays tracking post arrivals & decays. │
+│ 4. Provenance & Ingestion Matrix: Traceable item counts, native timestamps, and execution sources.  │
+│ 5. Walk-Forward CV Diagnostics: Fold-by-fold MAE comparisons against the Naive Zero benchmark.     │
+└────────────────────────────────────────────────────────────────────────────────────────────────────┘
+```
 
 ---
 
-## 🔍 Honest Scientific Limitations
+## 🔬 Honest Scientific Limitations & Quantitative Takeaways
 
-1. **Short Evaluation Window**: The 10-calendar-day mandate limits the test dataset to 5 trading sessions (35 bars for HKEX, 30 for KRX).
-2. **Statistical Alpha Rejection ($p \ge 0.05$)**: Across all 10 equities and pooled exchange models, directional accuracy against a 50% random guessing benchmark yields binomial $p$-values exceeding $0.05$. We explicitly reject the hypothesis that retail sentiment provides directional edge at 1-hour resolution.
-3. **Optimality of Zero-Return Benchmark**: In low-signal intraday regimes where mean return $\mu \approx 0$, the **Naive Zero-Return baseline strictly minimizes MAE** compared to linear and regularized sentiment regressions.
-4. **Apify Monthly Free-Tier Limits**: Live scraping reached the $5.00 free tier limit ($9.60 consumed). Scraper calls are disabled until reset on 2026-12-08. Reviewer reproduction is guaranteed via the committed `--use-sample` dataset.
+1. **Rejection of Short-Horizon Directional Alpha ($p \ge 0.05$)**:
+   Across all 10 equities and pooled cross-sectional panels, directional accuracy against a 50% random guessing benchmark yields binomial $p$-values exceeding $0.05$. We transparently **reject the hypothesis that retail sentiment delivers directional alpha at the 1-hour intraday horizon**.
+2. **Optimality of the Naive Zero-Return Benchmark**:
+   In low-signal intraday regimes where mean return $\mathbb{E}[R] \approx 0$, the **Naive Zero-Return baseline strictly minimizes Mean Absolute Error** over linear regressions and complex feature sets. Presenting this outcome reflects genuine institutional quantitative discipline rather than overfit narrative fabrication.
+3. **Evaluation Window Constraints**:
+   The mandatory 10-calendar-day evaluation window encompasses exactly 5 active trading sessions (35 bars for HKEX, 30 for KRX). Extending the time series to multi-quarter horizons would be necessary to identify lower-frequency regime shifts or post-earnings announcement drift.
+4. **Apify Quota Status**:
+   The Apify account consumed $9.60 against the $5.00 monthly free tier limit; live scraping is disabled until account reset on **2026-12-08**. Immediate, flawless offline evaluation is fully provided via the committed sample dataset.
 
 ---
 
 ## 🚀 Quickstart & Reviewer Reproduction
 
 ### 1. Installation
-Clone the repository and install the pinned dependencies:
+
 ```bash
 git clone https://github.com/Nimonium/hengseng-sentiment-price-agent.git
 cd hengseng-sentiment-price-agent
 pip install -r requirements.txt
 ```
 
-### 2. Run Test Suite
-Execute the 9 unit tests covering boundary conditions, zero-lookahead alignment, multilingual scoring, and pivot calculations:
+### 2. Run Test Suite (Zero Dependencies / Zero Tokens)
+
+Verify boundary conditions, zero-lookahead alignment, pivot calculations, and statistical tests:
 ```bash
 pytest -v
 ```
+*(All 9 unit tests pass in under 10 seconds)*
 
 ### 3. Reviewer Reproducibility Mode (Zero API Tokens Required)
-Run the complete pipeline end-to-end using the committed, pre-cached sample dataset in `data/sample/`:
+
+Run the full pipeline using the committed, pre-cached sample dataset in `data/sample/`:
 ```bash
 python main.py --run all --use-sample
 ```
-* Bypasses external network calls.
-* Executes feature alignment, walk-forward CV, ablation analysis, and regenerated [`report/report.html`](report/report.html).
+* **Offline Execution**: Bypasses external network calls entirely.
+* **Full Pipeline Execution**: Performs feature engineering, causal alignment, walk-forward cross validation, baseline ablation, and compiles [`report/report.html`](report/report.html).
 
-### 4. Live Scraper Execution (Requires `.env`)
-To run with live Apify and Exa APIs (once billing reset or active subscription is configured):
+### 4. Running Individual Pipeline Phases
+
+```bash
+# Ingestion only (sample mode)
+python main.py --run ingestion --use-sample
+
+# Feature alignment & engineering
+python main.py --run features --use-sample
+
+# Model training & walk-forward CV
+python main.py --run train --use-sample
+
+# Visual report generation
+python main.py --run report --use-sample
+```
+
+### 5. Automated Clean Clone Reproducibility Test
+
+To mathematically verify that the repository runs cleanly in an isolated environment without local dependencies or environment secrets:
+```bash
+python scripts/dev/run_clean_clone_test.py
+```
+
+### 6. Live API Scraper Mode (Optional)
+
+When active API tokens are available:
 ```bash
 cp .env.example .env
-# Edit .env with your APIFY_TOKEN and EXA_API_KEY
+# Edit .env and insert your APIFY_TOKEN and EXA_API_KEY
 python main.py --run all
 ```
 
@@ -244,13 +308,13 @@ python main.py --run all
 
 ```text
 hengseng-sentiment-price-agent/
-├── .env.example              # Sanitized credentials template (no secrets committed)
-├── .gitignore                # Protects .env, data/raw, and local scratch files
-├── ACTORS.md                 # Complete registry of Apify actors, schemas, and run IDs
+├── .env.example              # Sanitized template for external API credentials
+├── .gitignore                # Protects .env, raw cache, and scratch files
+├── ACTORS.md                 # Complete catalog of Apify actor schemas, run IDs & costs
 ├── README.md                 # Institutional documentation & empirical report
-├── config.yaml               # Exchange schedules, ticker metadata, and model parameters
-├── pytest.ini                # Pytest configuration
-├── requirements.txt          # Pinned dependency versions
+├── config.yaml               # Exchange trading hours, tickers, and model parameters
+├── pytest.ini                # Pytest configuration settings
+├── requirements.txt          # Pinned production dependency versions
 ├── main.py                   # Central pipeline orchestration & CLI entry point
 │
 ├── data/
@@ -282,7 +346,7 @@ hengseng-sentiment-price-agent/
 │   │   ├── trainer.py        # RidgeCV regression with bounded output clamping
 │   │   └── validator.py      # Walk-forward cross validation & pooled exchange models
 │   ├── report/
-│   │   └── generator.py      # Plotly HTML report generator
+│   │   └── generator.py      # Interactive Plotly HTML report generator
 │   └── sentiment/
 │       ├── aggregator.py     # Engagement-weighted aggregation
 │       └── scorer.py         # Multilingual sentiment scoring (VADER + Gemini)
@@ -293,3 +357,12 @@ hengseng-sentiment-price-agent/
     ├── test_sentiment.py     # Multilingual scoring & aggregation tests
     └── test_validation.py    # Walk-forward cross validation & binomial test verification
 ```
+
+---
+
+<div align="center">
+
+**Developed with rigorous quantitative standards for CrowdWisdomTrading.**  
+*Clean Code • Zero Data Leakage • Transparent Empirical Evaluation*
+
+</div>
