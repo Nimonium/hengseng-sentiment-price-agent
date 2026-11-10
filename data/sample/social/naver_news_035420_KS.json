@@ -1,0 +1,80 @@
+[
+  {
+    "id": "naver_news_431798396",
+    "ticker": "035420.KS",
+    "source": "naver_news",
+    "raw_timestamp_field": "writtenAt",
+    "raw_timestamp_value": "2026-11-06T15:05:18",
+    "timestamp": "2026-11-06T06:05:18+00:00",
+    "text": "[AI 요약] 네이버(주)의 유상증자 발행 결과가 발표되었어요📢 None",
+    "likes": 0,
+    "replies": 0,
+    "views": 0,
+    "author_followers": null
+  },
+  {
+    "id": "naver_news_431748539",
+    "ticker": "035420.KS",
+    "source": "naver_news",
+    "raw_timestamp_field": "writtenAt",
+    "raw_timestamp_value": "2026-11-06T09:00:05",
+    "timestamp": "2026-11-06T00:00:05+00:00",
+    "text": "5% 이상 하락했어요 😞 None",
+    "likes": 0,
+    "replies": 0,
+    "views": 0,
+    "author_followers": null
+  },
+  {
+    "id": "naver_news_431637965",
+    "ticker": "035420.KS",
+    "source": "naver_news",
+    "raw_timestamp_field": "writtenAt",
+    "raw_timestamp_value": "2026-11-05T09:00:35",
+    "timestamp": "2026-11-05T00:00:35+00:00",
+    "text": "5% 이상 상승했어요 🎉 None",
+    "likes": 0,
+    "replies": 0,
+    "views": 0,
+    "author_followers": null
+  },
+  {
+    "id": "naver_news_431531050",
+    "ticker": "035420.KS",
+    "source": "naver_news",
+    "raw_timestamp_field": "writtenAt",
+    "raw_timestamp_value": "2026-11-03T17:05:47",
+    "timestamp": "2026-11-03T08:05:47+00:00",
+    "text": "[AI 요약] 네이버의 유상증자 결정이 정정되었어요📢 None",
+    "likes": 0,
+    "replies": 0,
+    "views": 0,
+    "author_followers": null
+  },
+  {
+    "id": "naver_news_431531040",
+    "ticker": "035420.KS",
+    "source": "naver_news",
+    "raw_timestamp_field": "writtenAt",
+    "raw_timestamp_value": "2026-11-03T17:05:39",
+    "timestamp": "2026-11-03T08:05:39+00:00",
+    "text": "[AI 요약] 네이버의 엔비디아 유상증자 관련 정정 공시가 발표되었어요📢 None",
+    "likes": 0,
+    "replies": 0,
+    "views": 0,
+    "author_followers": null
+  },
+  {
+    "id": "naver_news_431316828",
+    "ticker": "035420.KS",
+    "source": "naver_news",
+    "raw_timestamp_field": "writtenAt",
+    "raw_timestamp_value": "2026-10-30T07:40:57",
+    "timestamp": "2026-10-29T22:40:57+00:00",
+    "text": "[AI 요약] 네이버의 유상증자 결정이 정정되었어요📢 None",
+    "likes": 0,
+    "replies": 0,
+    "views": 0,
+    "author_followers": null
+  }
+]

@@ -1,0 +1,67 @@
+[
+  {
+    "id": "aastocks_IC5027900",
+    "ticker": "0005.HK",
+    "source": "aastocks",
+    "raw_timestamp_field": "data-nt",
+    "raw_timestamp_value": "202611051506",
+    "timestamp": "2026-11-05T07:06:00+00:00",
+    "text": "恒指午後升幅再擴大逾900點 阿里等漲逾8%",
+    "likes": 30,
+    "replies": 0,
+    "views": 25,
+    "author_followers": null
+  },
+  {
+    "id": "aastocks_IC5027333",
+    "ticker": "0005.HK",
+    "source": "aastocks",
+    "raw_timestamp_field": "data-nt",
+    "raw_timestamp_value": "202611050930",
+    "timestamp": "2026-11-05T01:30:00+00:00",
+    "text": "港股承接美股高開397點返24000關 創科(00669)裂口高開一成",
+    "likes": 45,
+    "replies": 0,
+    "views": 25,
+    "author_followers": null
+  },
+  {
+    "id": "aastocks_IC5026211",
+    "ticker": "0005.HK",
+    "source": "aastocks",
+    "raw_timestamp_field": "data-nt",
+    "raw_timestamp_value": "202611040720",
+    "timestamp": "2026-11-03T23:20:00+00:00",
+    "text": "匯控(00005)發行共42.5億美元高級無抵押票據",
+    "likes": 19,
+    "replies": 0,
+    "views": 25,
+    "author_followers": null
+  },
+  {
+    "id": "aastocks_IC5025802",
+    "ticker": "0005.HK",
+    "source": "aastocks",
+    "raw_timestamp_field": "data-nt",
+    "raw_timestamp_value": "202611031231",
+    "timestamp": "2026-11-03T04:31:00+00:00",
+    "text": "匯豐於官網正式推出全港首項「文字轉手語」翻譯工具",
+    "likes": 9,
+    "replies": 0,
+    "views": 25,
+    "author_followers": null
+  },
+  {
+    "id": "aastocks_IC5025104",
+    "ticker": "0005.HK",
+    "source": "aastocks",
+    "raw_timestamp_field": "data-nt",
+    "raw_timestamp_value": "202611021852",
+    "timestamp": "2026-11-02T10:52:00+00:00",
+    "text": "匯豐完成代幣化外匯基金票據二級市場試驗交易",
+    "likes": 15,
+    "replies": 0,
+    "views": 25,
+    "author_followers": null
+  }
+]

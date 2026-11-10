@@ -1,0 +1,80 @@
+[
+  {
+    "id": "aastocks_GLH2750227L",
+    "ticker": "9988.HK",
+    "source": "aastocks",
+    "raw_timestamp_field": "data-nt",
+    "raw_timestamp_value": "202611061753",
+    "timestamp": "2026-11-06T09:53:00+00:00",
+    "text": "圖解丨南下資金加倉騰訊、美團和阿里",
+    "likes": 22,
+    "replies": 0,
+    "views": 25,
+    "author_followers": null
+  },
+  {
+    "id": "aastocks_IC5028456",
+    "ticker": "9988.HK",
+    "source": "aastocks",
+    "raw_timestamp_field": "data-nt",
+    "raw_timestamp_value": "202611060929",
+    "timestamp": "2026-11-06T01:29:00+00:00",
+    "text": "港股回吐低開392點 AI相關重創、聯想集團華虹宏力低開9%",
+    "likes": 26,
+    "replies": 0,
+    "views": 25,
+    "author_followers": null
+  },
+  {
+    "id": "aastocks_GLH2749192L",
+    "ticker": "9988.HK",
+    "source": "aastocks",
+    "raw_timestamp_field": "data-nt",
+    "raw_timestamp_value": "202611060827",
+    "timestamp": "2026-11-06T00:27:00+00:00",
+    "text": "在美上市中概股逆勢走強 中國科技政策穩定預期形成支撐",
+    "likes": 22,
+    "replies": 0,
+    "views": 25,
+    "author_followers": null
+  },
+  {
+    "id": "aastocks_GLH2748592L",
+    "ticker": "9988.HK",
+    "source": "aastocks",
+    "raw_timestamp_field": "data-nt",
+    "raw_timestamp_value": "202611052127",
+    "timestamp": "2026-11-05T13:27:00+00:00",
+    "text": "阿里雲：預計明年3月單位面積的IT能力承載將較目前翻番",
+    "likes": 26,
+    "replies": 0,
+    "views": 25,
+    "author_followers": null
+  },
+  {
+    "id": "aastocks_IC5028091",
+    "ticker": "9988.HK",
+    "source": "aastocks",
+    "raw_timestamp_field": "data-nt",
+    "raw_timestamp_value": "202611051939",
+    "timestamp": "2026-11-05T11:39:00+00:00",
+    "text": "菜鳥公布與 AI 及具身智能產業展開戰略合作",
+    "likes": 27,
+    "replies": 0,
+    "views": 25,
+    "author_followers": null
+  },
+  {
+    "id": "aastocks_IC5027900",
+    "ticker": "9988.HK",
+    "source": "aastocks",
+    "raw_timestamp_field": "data-nt",
+    "raw_timestamp_value": "202611051506",
+    "timestamp": "2026-11-05T07:06:00+00:00",
+    "text": "恒指午後升幅再擴大逾900點 阿里等漲逾8%",
+    "likes": 30,
+    "replies": 0,
+    "views": 25,
+    "author_followers": null
+  }
+]

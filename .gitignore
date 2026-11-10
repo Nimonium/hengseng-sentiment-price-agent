@@ -1,0 +1,25 @@
+# Environments and Secrets
+.env
+*.env
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Data and Cache
+data/raw/
+data/processed/
+scratch/
+
+# Allow committed sample datasets for zero-token reviewer reproducibility
+!data/sample/
+!data/sample/**
+
+# IDE and OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

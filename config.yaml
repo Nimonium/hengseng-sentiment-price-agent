@@ -1,0 +1,117 @@
+# HengSeng Sentiment Price Prediction Agent Configuration
+
+project:
+  name: "hengseng-sentiment-agent"
+  version: "1.0.0"
+  random_seed: 42
+
+window:
+  calendar_days: 10
+  end_time: "now"
+
+data:
+  cache_dir: "data/raw"
+  processed_dir: "data/processed"
+  report_dir: "report"
+  days_lookback: 14
+  bar_interval: "1h"
+
+exchanges:
+  HKEX:
+    timezone: "Asia/Hong_Kong"
+    market_open: "09:30"
+    market_close: "16:00"
+    social_sources: ["lihkg"]
+    news_sources: ["aastocks"]
+    tickers:
+      - symbol: "0700.HK"
+        name: "Tencent Holdings"
+        local_name: "騰訊控股"
+        clean_code: "0700"
+        keywords: ["0700", "700", "Tencent", "騰訊", "腾讯", "騰訊控股", "大戶騰"]
+      - symbol: "9988.HK"
+        name: "Alibaba Group"
+        local_name: "阿里巴巴"
+        clean_code: "9988"
+        keywords: ["9988", "Alibaba", "阿里巴巴", "阿里", "BABA", "淘寶"]
+      - symbol: "0005.HK"
+        name: "HSBC Holdings"
+        local_name: "滙豐控股"
+        clean_code: "0005"
+        keywords: ["0005", "5", "HSBC", "滙豐", "汇丰", "大笨象", "獅子銀行"]
+      - symbol: "1299.HK"
+        name: "AIA Group"
+        local_name: "友邦保險"
+        clean_code: "1299"
+        keywords: ["1299", "AIA", "友邦", "友邦保險", "友邦保险"]
+      - symbol: "3690.HK"
+        name: "Meituan"
+        local_name: "美團"
+        clean_code: "3690"
+        keywords: ["3690", "Meituan", "美團", "美团", "美團點評"]
+
+  KRX:
+    timezone: "Asia/Seoul"
+    market_open: "09:00"
+    market_close: "15:30"
+    social_sources: ["naver_discussion", "blind"]
+    news_sources: ["daum_news", "naver_news"]
+    tickers:
+      - symbol: "005930.KS"
+        name: "Samsung Electronics"
+        local_name: "삼성전자"
+        clean_code: "005930"
+        keywords: ["005930", "Samsung", "삼성전자", "삼전"]
+      - symbol: "000660.KS"
+        name: "SK Hynix"
+        local_name: "SK하이닉스"
+        clean_code: "000660"
+        keywords: ["000660", "Hynix", "SK하이닉스", "하이닉스"]
+      - symbol: "035420.KS"
+        name: "NAVER"
+        local_name: "네이버"
+        clean_code: "035420"
+        keywords: ["035420", "NAVER", "네이버"]
+      - symbol: "005380.KS"
+        name: "Hyundai Motor"
+        local_name: "현대자동차"
+        clean_code: "005380"
+        keywords: ["005380", "Hyundai", "현대자동차", "현대차"]
+      - symbol: "035720.KS"
+        name: "Kakao"
+        local_name: "카카오"
+        clean_code: "035720"
+        keywords: ["035720", "Kakao", "카카오"]
+
+sentiment:
+  scoring_method: "hybrid_multilingual"
+  half_life_decay_hours: 6.0
+  engagement_weights:
+    base: 1.0
+    likes: 1.0
+    replies: 1.5
+    views: 0.5
+    followers: 0.3
+
+features:
+  price_features:
+    - "return_lag_1"
+    - "return_lag_2"
+    - "return_lag_3"
+    - "rolling_volatility_5h"
+    - "volume_ratio_5h"
+    - "hl_spread"
+  social_features:
+    - "social_sentiment"
+    - "social_mentions"
+    - "social_dispersion"
+    - "social_bull_bear_diff"
+    - "social_sentiment_smooth_3h"
+  news_features:
+    - "news_sentiment"
+    - "news_count"
+
+models:
+  cv_splits: 4
+  min_train_size: 25
+  position_threshold: 0.0010

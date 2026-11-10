@@ -1,0 +1,93 @@
+[
+  {
+    "id": "aastocks_AI203309",
+    "ticker": "1299.HK",
+    "source": "aastocks",
+    "raw_timestamp_field": "data-nt",
+    "raw_timestamp_value": "202611051241",
+    "timestamp": "2026-11-05T04:41:00+00:00",
+    "text": "《AI》友邦保險(01299.HK)出現「三重底」技術圖表形態",
+    "likes": 5,
+    "replies": 0,
+    "views": 25,
+    "author_followers": null
+  },
+  {
+    "id": "aastocks_AI203067",
+    "ticker": "1299.HK",
+    "source": "aastocks",
+    "raw_timestamp_field": "data-nt",
+    "raw_timestamp_value": "202611041300",
+    "timestamp": "2026-11-04T05:00:00+00:00",
+    "text": "《AI》友邦保險(01299.HK)出現「區域突破」技術圖表形態",
+    "likes": 4,
+    "replies": 0,
+    "views": 25,
+    "author_followers": null
+  },
+  {
+    "id": "aastocks_IC5025796",
+    "ticker": "1299.HK",
+    "source": "aastocks",
+    "raw_timestamp_field": "data-nt",
+    "raw_timestamp_value": "202611031226",
+    "timestamp": "2026-11-03T04:26:00+00:00",
+    "text": "藍十字: 2026年上半年業務表現持續領先市場 毛保費增長10.1%",
+    "likes": 6,
+    "replies": 0,
+    "views": 25,
+    "author_followers": null
+  },
+  {
+    "id": "aastocks_AI202696",
+    "ticker": "1299.HK",
+    "source": "aastocks",
+    "raw_timestamp_field": "data-nt",
+    "raw_timestamp_value": "202611021312",
+    "timestamp": "2026-11-02T05:12:00+00:00",
+    "text": "《AI》友邦保險－Ｒ(81299.HK)出現「三角突破」技術圖表形態",
+    "likes": 5,
+    "replies": 0,
+    "views": 25,
+    "author_followers": null
+  },
+  {
+    "id": "aastocks_GLH2737973L",
+    "ticker": "1299.HK",
+    "source": "aastocks",
+    "raw_timestamp_field": "data-nt",
+    "raw_timestamp_value": "202610301143",
+    "timestamp": "2026-10-30T03:43:00+00:00",
+    "text": "港股異動丨友邦保險漲近4%，9月份新業務價值同比上升逾25%，預期Q4勢頭強勁",
+    "likes": 7,
+    "replies": 0,
+    "views": 25,
+    "author_followers": null
+  },
+  {
+    "id": "aastocks_IC5023240",
+    "ticker": "1299.HK",
+    "source": "aastocks",
+    "raw_timestamp_field": "data-nt",
+    "raw_timestamp_value": "202610301007",
+    "timestamp": "2026-10-30T02:07:00+00:00",
+    "text": "港股今早反覆曾漲逾300點 小米美團曾彈半成、晶片AI股受壓",
+    "likes": 29,
+    "replies": 0,
+    "views": 25,
+    "author_followers": null
+  },
+  {
+    "id": "aastocks_IC5022810",
+    "ticker": "1299.HK",
+    "source": "aastocks",
+    "raw_timestamp_field": "data-nt",
+    "raw_timestamp_value": "202610300917",
+    "timestamp": "2026-10-30T01:17:00+00:00",
+    "text": "高盛料友邦(01299)第四財季將重拾新業務價值兩位數增長動能",
+    "likes": 7,
+    "replies": 0,
+    "views": 25,
+    "author_followers": null
+  }
+]

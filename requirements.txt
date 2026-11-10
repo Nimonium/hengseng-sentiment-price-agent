@@ -1,0 +1,17 @@
+apify-client==3.4.0
+yfinance==1.8.0
+exa-py==2.28.0
+pandas==2.3.3
+numpy==1.26.4
+scipy==1.17.1
+scikit-learn==1.9.0
+lightgbm==4.7.0
+xgboost==3.4.1
+plotly==7.0.0
+requests==2.34.2
+beautifulsoup4==4.12.3
+python-dotenv==1.0.1
+pyyaml==6.0.2
+pytest==9.0.3
+vaderSentiment==3.3.2
+pyarrow==25.0.1
