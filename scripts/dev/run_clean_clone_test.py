@@ -46,3 +46,4 @@ assert report_file.exists() and report_file.stat().st_size > 10000, "Report not 
 # Cleanup temp dir
 shutil.rmtree(temp_dir, ignore_errors=True)
 print("\nClean clone test completed and cleaned up successfully!")
+
